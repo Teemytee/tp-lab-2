@@ -1,30 +1,14 @@
-#include <stdio.h>
-#include <stdlib.h>
+#include <iostream>
 #include "task1.h"
-using namespace std;
 int main()
 {
-	int a[8] = { 7, 8, 1, -3, 5, 78, 90, 120 };
-	printf("For INT: \n");
-	for (int i = 0; i<8; i++)
-		printf("%d ", a[i]);
-	printf("\n");
-	msort<int>(a, 8); 
-	for (int i = 0; i < 8; i++){
-		printf("%d ", a[i]);
+	const size_t n = 6;
+	int *a = new int[n] {-5, 3, -2, 4, 1, 6};
+	msort<int>(a, n);
+	for (size_t i = 0; i < n; i++)
+	{
+		std::cout << a[i] << " ";
 	}
-	printf("\n");
-	double b[8] = { 6.77, 5.44, 3.1, -0.5, 6.78, 4.33, 4.5, 1.2 };
-	printf("For DOUBLE: \n");
-	for (int i = 0; i < 8; i++){
-		printf("%.2lf ", b[i]);
-	}
-	printf("\n");
-	msort<double>(b, 8); 
-	
-	for (int i = 0; i<8; i++)
-		printf("%.2lf ", b[i]);
-	printf("\n");
 	getchar();
-	return 0;
+	system("pause");
 }
