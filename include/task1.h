@@ -1,46 +1,98 @@
-#include <stdio.h>
-#include <stdlib.h>
-// Cортировка двухпутевым слиянием
-template <typename T>
-void msort(T  *a, int n)
+#pragma once
+#include <cstring>
+#include <iostream>
+using namespace std;
+
+
+
+
+template<typename N>
+void merge(N arr[], int left, int mid, int right)
 {
-	int mid = n / 2; //Середина сортируемой последовательности 
-	if (n % 2 == 1){
-		mid++;
-	}
-	int h = 1;
-	T  *temp = new T[n];
-	int step;
-	while (h < n){
-		step = h;
-		int i = 0;   // индекс первого пути
-		int j = mid; // индекс второго пути
-		int k = 0;   // индекс элемента рез-та
-		while (step <= mid){
-			while ((i < step) && (j < n) && (j < (mid + step))){ 
-				if (a[i] < a[j]){
-					temp[k] = a[i];
-					i++; k++;
-				}
-				else {
-					temp[k] = a[j];
-					j++; k++;
-				}
-			}
-			while (i < step){ // переписываем оставшиеся элементы первого пути (если второй кончился раньше)
-				temp[k] = a[i];
-				i++; k++;
-			}
-			while ((j < (mid + step)) && (j<n)){  // переписываем оставшиеся элементы второго пути (если первый кончился раньше)
-				temp[k] = a[j];
-				j++; k++;
-			}
-			step = step + h;
+	int left_itr = 0, right_itr = 0;
+	N *tmp_arr = new N[right - left];
+	while ((left + left_itr) < mid && (mid + right_itr) < right) {
+		if (arr[left + left_itr] < arr[mid + right_itr])
+		{
+			tmp_arr[left_itr + right_itr] = arr[left + left_itr];
+			left_itr++;
 		}
-		h = h * 2;
-		// Переносим упорядоченную последовательность (промежуточный вариант) в исходный массив
-		for (i = 0; i < n; i++){
-			a[i] = temp[i];
+		else
+		{
+			tmp_arr[left_itr + right_itr] = arr[mid + right_itr];
+			right_itr++;
 		}
 	}
+	while (left + left_itr < mid)
+	{
+		tmp_arr[left_itr + right_itr] = arr[left + left_itr];
+		left_itr++;
+	}
+	while (mid + right_itr < right)
+	{
+		tmp_arr[left_itr + right_itr] = arr[mid + right_itr];
+		right_itr++;
+	}
+	for (auto i = 0; i < right - left; i++)
+	{
+		arr[left + i] = tmp_arr[i];
+	}
+	delete tmp_arr;
+	return;
+}
+
+template<>
+
+void merge(char* arr[], int left, int mid, int right)
+{
+	int left_itr = 0, right_itr = 0;
+	char**  tmp_arr = new char*[sizeof(char) * (right - left)];
+	while ((left + left_itr) < mid && (mid + right_itr) < right) {
+		if (strlen(arr[left + left_itr]) < strlen(arr[mid + right_itr]))
+		{
+			for (auto i = 0; arr[left + left_itr][i] != '0'; i++)
+			{
+				tmp_arr[left_itr + right_itr] = arr[left + left_itr];
+			}
+
+			left_itr++;
+		}
+		else
+		{
+			tmp_arr[left_itr + right_itr] = arr[mid + right_itr];
+			right_itr++;
+		}
+	}
+	while (left + left_itr < mid)
+	{
+		tmp_arr[left_itr + right_itr] = arr[left + left_itr];
+		left_itr++;
+	}
+	while (mid + right_itr < right)
+	{
+		tmp_arr[left_itr + right_itr] = arr[mid + right_itr];
+		right_itr++;
+	}
+	for (auto i = 0; i < right - left; i++)
+	{
+		arr[left + i] = tmp_arr[i];
+	}
+	delete tmp_arr;
+	return;
+}
+
+template<typename T>
+
+void msort(T arr[], int size)
+{
+	for (auto i = 1; i <= size; i *= 2)
+	{
+		for (auto j = 0; j <= size - i; j += (2 * i))
+		{
+			int right = (j + 2 * i) < size ? (j + 2 * i) : size;
+			merge(arr, j, j + i, right);
+		}
+
+	}
+	return;
 }

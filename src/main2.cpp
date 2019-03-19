@@ -1,29 +1,25 @@
-#include <iostream>
 #include "task2.h"
-template<typename T>
-T gen()
+#include <iostream>
+using namespace std;
+
+int gen()
 {
-	static int t = 48;
-	return t++;
+	static int a = 1;
+	a *= 2;
+	return a;
 }
-char* gen()
-{
-	static unsigned t = 0;
-	t++;
-	char* s = new char[t + 1];
-	for (size_t i = 0; i < t; i++)
-		s[i] = '0' + i;
-	s[t] = '\0';
-	return s;
-}
+
 
 int main()
 {
-	int const N = 9;
-	char* arr;
-	arr = createArr<char, N>(gen);
-	for (auto i = 0; i < N; i++) {
-		cout << arr[i] << ";\n" << endl;
+	const int N = 11;
+	int* p;
+	p = createArr<int, N>(gen);
+	for (auto i = 0; i < N; i++)
+	{
+		cout << p[i] << " ";
 	}
-	system("pause");
+
+	getchar();
+	return 0;
 }
