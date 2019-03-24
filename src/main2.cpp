@@ -2,24 +2,20 @@
 #include <iostream>
 using namespace std;
 
-int gen()
-{
+int gen(){
 	static int a = 1;
-	a *= 2;
+	a *= 4;
 	return a;
 }
 
 
-int main()
-{
+int main(){
 	const int N = 11;
-	int* p;
-	p = createArr<int, N>(gen);
-	for (auto i = 0; i < N; i++)
-	{
-		cout << p[i] << " ";
+	int* m;
+	m = createArr<int, N>(gen);
+	for (auto i = 0; i < N; i++){
+		cout << m[i] << " ";
 	}
-
 	getchar();
 	return 0;
 }
